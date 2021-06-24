@@ -142,18 +142,17 @@ def validate_image_col_row(image, col, row):
 
 
 def slice(
-    filename,
+    image,
     number_tiles=None,
     col=None,
     row=None,
-    save=True,
     DecompressionBombWarning=True,
 ):
     """
     Split an image into a specified number of tiles.
 
     Args:
-       filename (str):  The filename of the image to split.
+       image (pil):  The filename of the image to split.
        number_tiles (int):  The number of tiles required.
 
     Kwargs:
@@ -167,7 +166,7 @@ def slice(
     if DecompressionBombWarning is False:
         Image.MAX_IMAGE_PIXELS = None
 
-    im = Image.open(filename)
+    im = image
     im_w, im_h = im.size
 
     columns = 0
@@ -193,10 +192,7 @@ def slice(
             tile = Tile(image, number, position, coords)
             tiles.append(tile)
             number += 1
-    if save:
-        save_tiles(
-            tiles, prefix=get_basename(filename), directory=os.path.dirname(filename)
-        )
+            
     return tuple(tiles)
 
 
